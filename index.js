@@ -29,14 +29,6 @@ function genarateNamber() {
   return Math.floor(Math.random() * colors.length);
 }
 
-// Wait for key boared press
-$(document).keydown(function (event) {
-  console.log(start);
-  if (!start) addNewColor();
-  start = true;
-  gameOverBool = false;
-});
-
 // Check if patterns is the same
 function checkCorrect() {
   if (playersPattern[count] == randomPattern[count]) {
@@ -51,6 +43,21 @@ function checkCorrect() {
   } else return false;
 }
 
+//Game over or start again ?
+function gameOver() {
+  gameOverBool = true;
+  $("body").addClass("game-over");
+  setTimeout(function () {
+    $("body").removeClass("game-over");
+  }, 150);
+  randomPattern = [];
+  playersPattern = [];
+  level = 0;
+  $("#level-title").text("Press A Key to Start Again");
+  start = false;
+}
+
+//Animations
 function animatePress(button) {
   setTimeout(function () {
     $("#" + button)
@@ -75,16 +82,10 @@ $(".btn").click(function () {
   }
 });
 
-//Game over or start again ?
-function gameOver() {
-  gameOverBool = true;
-  $("body").addClass("game-over");
-  setTimeout(function () {
-    $("body").removeClass("game-over");
-  }, 150);
-  randomPattern = [];
-  playersPattern = [];
-  level = 0;
-  $("#level-title").text("Press A Key to Start Again");
-  start = false;
-}
+// Wait for keyboard press
+$(document).keydown(function (event) {
+  console.log(start);
+  if (!start) addNewColor();
+  start = true;
+  gameOverBool = false;
+});
